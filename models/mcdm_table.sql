@@ -1,0 +1,118 @@
+WITH mcdm_table AS(
+SELECT
+    ad_id,
+    NULL AS add_to_cart,
+    adset_id,
+    campaign_id,
+    channel,
+    clicks,
+    NULL AS comments,
+    NULL AS creative_id,
+    __insert_date AS date,
+    NULL AS engagements,
+    imps AS impressions,
+    NULL AS installs,
+    NULL AS likes,
+    NULL AS link_clicks,
+    NULL AS placement_id,
+    NULL AS post_click_conversions,
+    NULL AS post_view_conversions,
+    NULL AS posts,
+    NULL AS purchase,
+    NULL AS registrations,
+    revenue,
+    NULL AS shares,
+    spend,
+    conv AS total_conversions,
+    NULL AS video_views
+FROM
+    {{ref("src_ads_bing_all_data")}}
+UNION ALL
+SELECT
+    ad_id,
+    add_to_cart,
+    NULL AS adset_id,
+    campaign_id,
+    channel,
+    clicks,
+    NULL AS comments,
+    NULL AS creative_id,
+    __insert_date AS date,
+    NULL AS engagements,
+    impressions,
+    NULL AS installs,
+    NULL AS likes,
+    NULL AS link_clicks,
+    NULL AS placement_id,
+    NULL AS post_click_conversions,
+    NULL AS post_view_conversions,
+    NULL AS posts,
+    purchase,
+    registrations,
+    NULL AS revenue,
+    NULL AS shares,
+    spend,
+    conversions AS total_conversions,
+    video_views
+FROM
+    {{ref('src_ads_tiktok_ads_all_data')}}
+UNION ALL
+SELECT
+    NULL AS ad_id,
+    NULL AS add_to_cart,
+    NULL AS adset_id,
+    campaign_id,
+    channel,
+    clicks,
+    comments,
+    NULL AS creative_id,
+    __insert_date AS date,
+    engagements,
+    impressions,
+    NULL AS installs,
+    likes,
+    url_clicks AS link_clicks,
+    NULL AS placement_id,
+    NULL AS post_click_conversions,
+    NULL AS post_view_conversions,
+    NULL AS posts,
+    NULL AS purchase,
+    NULL AS registrations,
+    NULL AS revenue,
+    retweets AS shares,
+    spend,
+    NULL AS total_conversions,
+    video_total_views AS video_views
+FROM
+    {{ref("src_promoted_tweets_twitter_all_data")}}
+UNION ALL
+SELECT
+    ad_id,
+    add_to_cart,
+    adset_id,
+    campaign_id,
+    channel,
+    clicks,
+    comments,
+    creative_id,
+    __insert_date AS date,
+    likes AS engagements,
+    impressions,
+    mobile_app_install AS installs,
+    likes,
+    inline_link_clicks AS link_clicks,
+    NULL AS placement_id,
+    NULL AS post_click_conversions,
+    NULL AS post_view_conversions,
+    NULL AS posts,
+    purchase,
+    complete_registration AS registrations,
+    purchase_value AS revenue,
+    shares,
+    spend,
+    purchase AS total_conversions,
+    NULL AS video_views
+FROM
+    {{ref("src_ads_creative_facebook_all_data")}})
+
+select * from mcdm_table
