@@ -1,118 +1,125 @@
-WITH ads_performance AS(
-SELECT
-    CAST(ad_id AS STRING),
-    CAST(NULL AS INT64) AS add_to_cart,
-    CAST(adset_id AS STRING),
-    campaign_id,
-    channel,
-    clicks,
-    CAST(NULL AS INT64) AS comments,
-    NULL AS creative_id,
-    CAST(__insert_date AS DATE) AS date,
-    CAST(NULL AS INT64) AS engagements,
-    imps AS impressions,
-    CAST(NULL AS INT64) AS installs,
-    CAST(NULL AS INT64) AS likes,
-    CAST(NULL AS INT64) AS link_clicks,
-    CAST(NULL AS STRING) AS placement_id,
-    CAST(NULL AS INT64) AS post_click_conversions,
-    CAST(NULL AS INT64) AS post_view_conversions,
-    CAST(NULL AS INT64) AS posts,
-    CAST(NULL AS INT64) AS purchase,
-    CAST(NULL AS INT64) AS registrations,
-    revenue,
-    CAST(NULL AS INT64) AS shares,
-    spend,
-    conv AS total_conversions,
-    CAST(NULL AS INT64) AS video_views
-FROM
-    {{ref("src_ads_bing_all_data")}}
-UNION ALL
-SELECT
-    CAST(ad_id AS STRING),
-    add_to_cart,
-    CAST(NULL AS STRING) AS adset_id,
-    campaign_id,
-    channel,
-    clicks,
-    CAST(NULL AS INT64) AS comments,
-    NULL AS creative_id,
-    CAST(__insert_date AS DATE) AS date,
-    CAST(NULL AS INT64) AS engagements,
-    impressions,
-    CAST(NULL AS INT64) AS installs,
-    CAST(NULL AS INT64) AS likes,
-    CAST(NULL AS INT64) AS link_clicks,
-    CAST(NULL AS STRING) AS placement_id,
-    CAST(NULL AS INT64) AS post_click_conversions,
-    CAST(NULL AS INT64) AS post_view_conversions,
-    CAST(NULL AS INT64) AS posts,
-    purchase,
-    registrations,
-    CAST(NULL AS INT64) AS revenue,
-    CAST(NULL AS INT64) AS shares,
-    spend,
-    conversions AS total_conversions,
-    video_views
-FROM
-    {{ref('src_ads_tiktok_ads_all_data')}}
-UNION ALL
-SELECT
-    CAST(NULL AS STRING) AS ad_id,
-    CAST(NULL AS INT64) AS add_to_cart,
-    CAST(NULL AS STRING) AS adset_id,
-    campaign_id,
-    channel,
-    clicks,
-    comments,
-    NULL AS creative_id,
-    CAST(__insert_date AS DATE) AS date,
-    engagements,
-    impressions,
-    CAST(NULL AS INT64) AS installs,
-    likes,
-    url_clicks AS link_clicks,
-    CAST(NULL AS STRING) AS placement_id,
-    CAST(NULL AS INT64) AS post_click_conversions,
-    CAST(NULL AS INT64) AS post_view_conversions,
-    CAST(NULL AS INT64) AS posts,
-    CAST(NULL AS INT64) AS purchase,
-    CAST(NULL AS INT64) AS registrations,
-    CAST(NULL AS INT64) AS revenue,
-    retweets AS shares,
-    spend,
-    CAST(NULL AS INT64) AS total_conversions,
-    video_total_views AS video_views
-FROM
-    {{ref("src_promoted_tweets_twitter_all_data")}}
-UNION ALL
-SELECT
-    CAST(ad_id AS STRING),
-    add_to_cart,
-    CAST(adset_id AS STRING),
-    campaign_id,
-    channel,
-    clicks,
-    comments,
-    creative_id,
-    CAST(__insert_date AS DATE) AS date,
-    (likes + shares + comments + views + clicks + mobile_app_install + complete_registration) AS engagements,
-    impressions,
-    mobile_app_install AS installs,
-    likes,
-    inline_link_clicks AS link_clicks,
-    CAST(NULL AS STRING) AS placement_id,
-    CAST(NULL AS INT64) AS post_click_conversions,
-    CAST(NULL AS INT64) AS post_view_conversions,
-    CAST(NULL AS INT64) AS posts,
-    purchase,
-    complete_registration AS registrations,
-    purchase_value AS revenue,
-    shares,
-    spend,
-    purchase AS total_conversions,
-    CAST(NULL AS INT64) AS video_views
-FROM
-    {{ref("src_ads_creative_facebook_all_data")}})
+with
+    ads_performance as (
+        select
+            cast(ad_id as string),
+            cast(null as int64) as add_to_cart,
+            cast(adset_id as string),
+            campaign_id,
+            channel,
+            clicks,
+            cast(null as int64) as comments,
+            null as creative_id,
+            cast(__insert_date as date) as date,
+            cast(null as int64) as engagements,
+            imps as impressions,
+            cast(null as int64) as installs,
+            cast(null as int64) as likes,
+            cast(null as int64) as link_clicks,
+            cast(null as string) as placement_id,
+            cast(null as int64) as post_click_conversions,
+            cast(null as int64) as post_view_conversions,
+            cast(null as int64) as posts,
+            cast(null as int64) as purchase,
+            cast(null as int64) as registrations,
+            revenue,
+            cast(null as int64) as shares,
+            spend,
+            conv as total_conversions,
+            cast(null as int64) as video_views
+        from {{ ref("src_ads_bing_all_data") }}
+        union all
+        select
+            cast(ad_id as string),
+            add_to_cart,
+            cast(null as string) as adset_id,
+            campaign_id,
+            channel,
+            clicks,
+            cast(null as int64) as comments,
+            null as creative_id,
+            cast(__insert_date as date) as date,
+            cast(null as int64) as engagements,
+            impressions,
+            cast(null as int64) as installs,
+            cast(null as int64) as likes,
+            cast(null as int64) as link_clicks,
+            cast(null as string) as placement_id,
+            cast(null as int64) as post_click_conversions,
+            cast(null as int64) as post_view_conversions,
+            cast(null as int64) as posts,
+            purchase,
+            registrations,
+            cast(null as int64) as revenue,
+            cast(null as int64) as shares,
+            spend,
+            conversions as total_conversions,
+            video_views
+        from {{ ref("src_ads_tiktok_ads_all_data") }}
+        union all
+        select
+            cast(null as string) as ad_id,
+            cast(null as int64) as add_to_cart,
+            cast(null as string) as adset_id,
+            campaign_id,
+            channel,
+            clicks,
+            comments,
+            null as creative_id,
+            cast(__insert_date as date) as date,
+            engagements,
+            impressions,
+            cast(null as int64) as installs,
+            likes,
+            url_clicks as link_clicks,
+            cast(null as string) as placement_id,
+            cast(null as int64) as post_click_conversions,
+            cast(null as int64) as post_view_conversions,
+            cast(null as int64) as posts,
+            cast(null as int64) as purchase,
+            cast(null as int64) as registrations,
+            cast(null as int64) as revenue,
+            retweets as shares,
+            spend,
+            cast(null as int64) as total_conversions,
+            video_total_views as video_views
+        from {{ ref("src_promoted_tweets_twitter_all_data") }}
+        union all
+        select
+            cast(ad_id as string),
+            add_to_cart,
+            cast(adset_id as string),
+            campaign_id,
+            channel,
+            clicks,
+            comments,
+            creative_id,
+            cast(__insert_date as date) as date,
+            (
+                likes
+                + shares
+                + comments
+                + views
+                + clicks
+                + mobile_app_install
+                + complete_registration
+            ) as engagements,
+            impressions,
+            mobile_app_install as installs,
+            likes,
+            inline_link_clicks as link_clicks,
+            cast(null as string) as placement_id,
+            cast(null as int64) as post_click_conversions,
+            cast(null as int64) as post_view_conversions,
+            cast(null as int64) as posts,
+            purchase,
+            complete_registration as registrations,
+            purchase_value as revenue,
+            shares,
+            spend,
+            purchase as total_conversions,
+            cast(null as int64) as video_views
+        from {{ ref("src_ads_creative_facebook_all_data") }}
+    )
 
-select * from ads_performance
+select *
+from ads_performance
