@@ -1,9 +1,9 @@
 with
     ads_performance as (
         select
-            cast(ad_id as string),
+            cast(ad_id as string) as ad_id,
             cast(null as int64) as add_to_cart,
-            cast(adset_id as string),
+            cast(adset_id as string) as adset_id,
             campaign_id,
             channel,
             clicks,
@@ -29,7 +29,7 @@ with
         from {{ ref("src_ads_bing_all_data") }}
         union all
         select
-            cast(ad_id as string),
+            cast(ad_id as string) as ad_id,
             add_to_cart,
             cast(null as string) as adset_id,
             campaign_id,
@@ -85,9 +85,9 @@ with
         from {{ ref("src_promoted_tweets_twitter_all_data") }}
         union all
         select
-            cast(ad_id as string),
+            cast(ad_id as string) as ad_id,
             add_to_cart,
-            cast(adset_id as string),
+            cast(adset_id as string) as adset_id,
             campaign_id,
             channel,
             clicks,
