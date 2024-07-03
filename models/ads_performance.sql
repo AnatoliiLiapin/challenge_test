@@ -11,7 +11,7 @@ with
             cast(null as string) as creative_id,
             cast(__insert_date as date) as date,
             cast(null as int64) as engagements,
-            imps as impressions,
+            cast(null as int64) as impressions,
             cast(null as int64) as installs,
             cast(null as int64) as likes,
             cast(null as int64) as link_clicks,
